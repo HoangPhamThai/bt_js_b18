@@ -26,42 +26,8 @@
   </head>
 
   <body>
-    <div class="container">
-      <!-- Length of array -->
-      <h5>Nhập chiều dài mảng:</h5>
-      <div class="row">
-        <div class="col-sm">
-          <!-- Input length of array -->
-          <div class="form-group">
-            <input
-              type="number"
-              class="form-control"
-              id="input-array-length"
-              placeholder=""
-            />
-            <small id="arr-length-note" class="form-text text-muted"></small>
-          </div>
-        </div>
-
-        <div class="col-sm">
-          <!-- Confirm length of array -->
-          <button onclick="confirmLength()" class="btn btn-info my-2">
-            Xác nhận
-          </button>
-        </div>
-
-        <div class="col-sm">
-          <!-- Confirm length of array -->
-          <button onclick="resetArray()" class="btn btn-danger my-2">
-            <span class="material-icons">autorenew</span>
-            <span>Reset</span>
-          </button>
-        </div>
-      </div>
-      <div id="display-array-length"></div>
-
-      <!-- Array's element -->
-      <div id="array-element-section" style="display: none">
+    <div class="container mt-3">
+      <div id="array-element-section">
         <h5>Nhập phần tử của mảng:</h5>
         <div class="row">
           <div class="col-sm">
@@ -76,17 +42,21 @@
             </div>
           </div>
           <div class="col-sm">
-            <!-- Add element to array -->
             <button onclick="addToArray()" class="btn btn-info my-2">
               Xác nhận
+            </button>
+          </div>
+          <div class="col-sm">
+            <button onclick="resetArray()" class="btn btn-danger my-2">
+              <span class="material-icons">autorenew</span>
+              <span>Reset</span>
             </button>
           </div>
         </div>
         <div id="display-array"></div>
       </div>
 
-      <!-- Menu -->
-      <div id="menu-section" style="display: none">
+      <div id="menu-section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button
@@ -241,7 +211,7 @@
             <button onclick="process(1)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resultSumPositive" class="mt-2 alert-success"></div>
+            <div id="resultBT1" class="mt-2 alert-success"></div>
           </div>
           <!-- BT 2 -->
           <div
@@ -254,7 +224,7 @@
             <button onclick="process(2)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resultCountPositive" class="mt-2 alert-success"></div>
+            <div id="resultBT2" class="mt-2 alert-success"></div>
           </div>
           <!-- BT 3 -->
           <div
@@ -267,7 +237,7 @@
             <button onclick="process(3)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resultMinValue" class="mt-2 alert-success"></div>
+            <div id="resultBT3" class="mt-2 alert-success"></div>
           </div>
           <!-- BT 4 -->
           <div
@@ -280,7 +250,7 @@
             <button onclick="process(4)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resultMinPositiveValue" class="mt-2 alert-success"></div>
+            <div id="resultBT4" class="mt-2 alert-success"></div>
           </div>
           <!-- BT 5 -->
           <div
@@ -293,7 +263,7 @@
             <button onclick="process(5)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resulLastEvenValue" class="mt-2 alert-success"></div>
+            <div id="resultBT5" class="mt-2 alert-success"></div>
           </div>
           <!-- BT 6 -->
           <div
@@ -322,7 +292,7 @@
             <button onclick="process(6)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resultSwitchElements" class="mt-2 alert-success"></div>
+            <div id="resultBT6" class="mt-2 alert-success"></div>
           </div>
           <!-- BT 7 -->
           <div
@@ -335,7 +305,7 @@
             <button onclick="process(7)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resultAscendingArray" class="mt-2 alert-success"></div>
+            <div id="resultBT7" class="mt-2 alert-success"></div>
           </div>
           <!-- BT 8 -->
           <div
@@ -344,11 +314,74 @@
             role="tabpanel"
             aria-labelledby="bt8-tab"
           >
-            <p>Tìm số nguyên tố</p>
+            <p>Tìm số nguyên tố đầu tiên trong mảng</p>
             <button onclick="process(8)" class="btn btn-info mt-2">
               Kết quả
             </button>
-            <div id="resultPrimeNumber" class="mt-2 alert-success"></div>
+            <div id="resultBT8" class="mt-2 alert-success"></div>
+          </div>
+          <!-- BT 9 -->
+          <div
+            class="tab-pane fade"
+            id="bt9"
+            role="tabpanel"
+            aria-labelledby="bt9-tab"
+          >
+            <div class="row">
+              <!-- Array's element -->
+              <div id="real-array-element-section">
+                <p>Nhập mảng số thực, tìm xem mảng có bao nhiêu số nguyên.</p>
+                <p>Nhập phần tử của mảng:</p>
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="input-real-element"
+                        placeholder=""
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <button
+                      onclick="addRealNumToArray()"
+                      class="btn btn-info my-2"
+                    >
+                      Xác nhận
+                    </button>
+                  </div>
+                  <div class="col-sm">
+                    <button
+                    onclick="resetRealArray()"
+                    class="btn btn-danger my-2"
+                  >
+                    <span class="material-icons">autorenew</span>
+                    <span>Reset</span>
+                  </button>
+                  </div>
+                </div>
+                <div id="display-real-array"></div>
+              </div>
+            </div>
+            <div id="display-array-length"></div>
+            <button onclick="process(9)" class="btn btn-info mt-2">
+              Kết quả
+            </button>
+            <div id="resultBT9" class="mt-2 alert-success"></div>
+          </div>
+          <!-- BT 10 -->
+          <div
+            class="tab-pane fade"
+            id="bt10"
+            role="tabpanel"
+            aria-labelledby="bt10-tab"
+          >
+            <p>So sánh số lượng số dương và số lượng số âm</p>
+            <button onclick="process(10)" class="btn btn-info mt-2">
+              Kết quả
+            </button>
+            <div id="resultBT10" class="mt-2 alert-success"></div>
           </div>
         </div>
       </div>

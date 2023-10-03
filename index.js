@@ -1,7 +1,7 @@
 // global variables
-var n = 0
 var arr = []
 var choice = 0
+var realArr = []
 
 // 1
 function sumPositive({
@@ -207,133 +207,122 @@ function countNegative({
 function isMorePositive({
     arr = []
 }){
-    let numPostitive = countPositive(arr = arr)
-    let numNegative = countPositive(arr = arr)
-    return numPostitive > numNegative
+    let totalPostitive = countPositive({arr: arr})
+    let totalNegative = countNegative({arr: arr})
+    let result = 0;
+    if (totalPostitive > totalNegative){
+        result = 1;
+    }else if (totalPostitive < totalNegative){
+        result = -1;
+    }
+    return result
 }
 
 
-// main process
-function process(choice){
-    console.log(`process called - choice = ${choice}`);
-    
-    switch (choice){
-        case 1:
-            let sum = sumPositive({arr: arr})
-            document.getElementById("resultSumPositive").innerText = sum
-            break
-        case 2:
-            let count = countPositive({arr: arr})
-            document.getElementById("resultCountPositive").innerText = count
-            break
-        case 3:
-            let minValue = findMin({arr: arr})
-            document.getElementById("resultMinValue").innerText = minValue
-            break
-        case 4:
-            let minPositiveValue = findMinPositive({arr: arr})
-            document.getElementById("resultMinPositiveValue").innerText = minPositiveValue
-            break
-        case 5:
-            let lastPositiveValue = getLastEven({arr: arr})
-            let displayValue = lastPositiveValue
-            if (lastPositiveValue === -1){
-                displayValue = "Trong mảng không có số chẵn"
-            }
-            document.getElementById("resulLastEvenValue").innerText = displayValue
-            break
-        case 6:
-            let result = handleSwitchElementById({arr: arr})
-            let textStyle = "text-danger"
-            if (result['status']){
-                textStyle = "text-primary"
-            }
-            document.getElementById("resultSwitchElements").innerHTML = `<p class=${textStyle}>${result['result']}</p>`
-            break
-        case 7:
-            let ascendingArray = quickSort({arr: arr})
-            document.getElementById("resultAscendingArray").innerText = ascendingArray.join(", ")
-            break
-        case 8:
-            let primeResult = handleFirstPrime({arr: arr})
-            let primeTextStyle = "text-danger"
-            if (primeResult['status']){
-                primeTextStyle = "text-primary"
-            }
-            document.getElementById("resultPrimeNumber").innerHTML = `<p class=${primeTextStyle}>${primeResult['result']}</p>`
-            break
-        case 9:
-            break
-        case 10:
-            break
-    }
+// Handle adding item to array
+function addRealNumToArray(){
+    let element = document.getElementById("input-real-element").value
+    realArr.push(element * 1.0)
+    document.getElementById("display-real-array").innerHTML = `<p class="text-primary">Mảng đã nhập: ${realArr.join(", ")}</p>`
 }
 
-// Get length of array
-function confirmLength(){
-    n = parseInt(document.getElementById("input-array-length").value)
-    if (n < 0){
-        document.getElementById("arr-length-note").innerHTML = `<p class="text-danger">Số lượng phần tử không được là số âm!</p>`
-        window.setTimeout(() => {
-            document.getElementById("arr-length-note").innerText = ""
-        }, 2000)
-        return
-    }
-    if (n == 0){
-        displayArrayComponent(false)
-        displayMenuComponent(false)
-        return
-    }
-    displayArrayComponent(true)
-    document.getElementById("display-array-length").innerHTML = `<p class="text-primary">Chiều dài mảng: n = ${n}</p>
-    `
-}
 
 function addToArray(){
-    if (arr.length === n){
-        document.getElementById("element-note").innerHTML = `<p class="text-danger">Không thể thêm phần tử mới!</p>`
-        window.setTimeout(() => {
-            document.getElementById("element-note").innerText = ""
-        }, 2000)
-        return
-    }
-
     let element = parseInt(document.getElementById("input-element").value)
     if (Number.isInteger(element)){
         arr.push(element)
     }
     document.getElementById("display-array").innerHTML = `<p class="text-primary">Mảng đã nhập: ${arr.join(", ")}</p>`
 
-    displayMenuComponent(true)
 }
+
+
+function resetRealArray(){
+    realArr = []
+    document.getElementById("input-real-element").value = ""
+    document.getElementById("display-real-array").innerText = ""
+    document.getElementById("resultBT9").innerText = ""
+}
+
 
 function resetArray(){
     n = 0
     arr = []
-    document.getElementById("input-array-length").value = ""
-    document.getElementById("display-array-length").innerText = ""
     document.getElementById("input-element").value = ""
     document.getElementById("display-array").innerText = ""
-    
-    displayArrayComponent(false)
-    displayMenuComponent(false)
-}
-
-// Show/hide components
-
-function handleDisplay(elementId, shouldDisplay){
-    let displayStatus = document.getElementById(elementId).style.display
-    if ((displayStatus === "block" || displayStatus === "") && !shouldDisplay){
-        document.getElementById(elementId).style.display = "none"
-    }else if (displayStatus === "none" && shouldDisplay){
-        document.getElementById(elementId).style.display = "block"
+    let i = 1
+    while (i <= 10){
+        if (i != 9){
+            document.getElementById(`resultBT${i}`).innerText = ""
+        }
+        i++
     }
+
 }
 
-function displayArrayComponent(shouldDisplay){
-    handleDisplay("array-element-section", shouldDisplay)
+
+function displayedHTMLResult({id, result, isSuccess = true}){
+    let textStyle = "text-primary"
+    if (!isSuccess){
+        textStyle = "text-danger"   
+    }
+    document.getElementById(id).innerHTML = `<p class=${textStyle}>${result}</p>`
 }
 
-function displayMenuComponent(shouldDisplay){
-    handleDisplay("menu-section", shouldDisplay)
+
+// main process
+function process(choice){
+    switch (choice){
+        case 1:
+            let sum = sumPositive({arr: arr})
+            displayedHTMLResult({id: "resultBT1", result: `Tổng các số dương trong mảng: ${sum}`})
+            break
+        case 2:
+            let count = countPositive({arr: arr})
+            displayedHTMLResult({id: "resultBT2", result: `Tổng số lượng các số dương trong mảng: ${count}`})
+            break
+        case 3:
+            let minValue = findMin({arr: arr})
+            displayedHTMLResult({id: "resultBT3", result: `Số nhỏ nhất trong mảng: ${minValue}`})
+            break
+        case 4:
+            let minPositiveValue = findMinPositive({arr: arr})
+            displayedHTMLResult({id: "resultBT4", result: `Số dương nhỏ nhất trong mảng: ${minPositiveValue}`})
+            break
+        case 5:
+            let lastPositiveValue = getLastEven({arr: arr})
+            let displayValue = `Số chẵn cuối cùng trong mảng: ${lastPositiveValue}`
+            if (lastPositiveValue === -1){
+                displayValue = "Trong mảng không có số chẵn"
+            }
+            displayedHTMLResult({id: "resultBT5", result: displayValue, isSuccess: lastPositiveValue !== -1})
+            break
+        case 6:
+            let result = handleSwitchElementById({arr: arr})
+            displayedHTMLResult({id: "resultBT6", result: result['result'].join(", "), isSuccess: result['status']})
+            break
+        case 7:
+            let ascendingArray = quickSort({arr: arr})
+            displayedHTMLResult({id: "resultBT7", result: ascendingArray.join(", ")})
+            break
+        case 8:
+            let primeResult = handleFirstPrime({arr: arr})
+            displayedHTMLResult({id: "resultBT8", result: primeResult['result'], isSuccess: primeResult['status']})
+            break
+        case 9:
+            let totalInteger = countIntegers({arr: realArr})
+            displayedHTMLResult({id: "resultBT9", result: `Số lượng các số nguyên: ${totalInteger}`})
+            break
+        case 10:
+            let isMorePos = isMorePositive({arr: arr})
+            let displayIsMorePos = "Số lượng số dương bằng số lượng số âm"
+            if (isMorePos === -1){
+                displayIsMorePos = "Số lượng số dương ít hơn số lượng số âm"
+            }else if (isMorePos === 1){
+                displayIsMorePos = "Số lượng số dương nhiều hơn số lượng số âm"
+            }
+            document.getElementById("resultBT10").innerText = displayIsMorePos
+            displayedHTMLResult({id: "resultBT10", result: displayIsMorePos})
+            break
+    }
 }

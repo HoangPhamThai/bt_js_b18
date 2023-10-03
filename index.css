@@ -14,3 +14,7 @@
 .nav-link.active{
     color: blue !important;
 }
+
+.container{
+    width: 70%;
+}
