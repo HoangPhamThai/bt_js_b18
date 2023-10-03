@@ -1,4 +1,7 @@
-
+// global variables
+var n = 0
+var arr = []
+var choice = 0
 
 // 1
 function sumPositive({
@@ -49,7 +52,6 @@ function findMin({
 // 4
 function findMinPositive({
     arr = [],
-    n = 0,
 }){
     let n = arr.length
     if (n === 0){
@@ -84,10 +86,33 @@ function swapByIds({
     pos1 = 0,
     pos2 = 0,
 }){
-    let temp = arr[pos1]
-    arr[pos1] = arr[pos2]
-    arr[pos2] = temp
-    return arr
+    let tempArr = arr
+    let temp = tempArr[pos1]
+    tempArr[pos1] = tempArr[pos2]
+    tempArr[pos2] = temp
+    return tempArr
+}
+
+function handleSwitchElementById({
+    arr = []
+}){
+    let position1 = parseInt(document.getElementById("position1").value)
+    let position2 = parseInt(document.getElementById("position2").value)
+    
+    if (position1 < 0 || position2 < 0){
+        return {
+            "result": "Vị trí nhập vào không được âm",
+            "status": false,
+        }
+    }
+    return {
+        "result": swapByIds({
+            arr: arr,
+            pos1: position1,
+            pos2: position2,
+        }),
+        "status": true,
+    }
 }
 
 
@@ -107,7 +132,7 @@ function quickSort({
             right.push(arr[i])
         }
     }
-    return [...quickSort(arr = left), pivot, ...quickSort(arr = right)]
+    return [...quickSort({arr: left}), pivot, ...quickSort({arr: right})]
 }
 
 
@@ -131,6 +156,23 @@ function findFirstPrime({
         }
     }
     return -1
+}
+
+function handleFirstPrime({
+    arr = []
+}){
+    let firstPrime = findFirstPrime({arr: arr})
+    
+    if (firstPrime == -1){
+        return {
+            "result": "Không có số nguyên tố trong mảng",
+            "status": false,
+        }
+    }
+    return {
+        "result": firstPrime,
+        "status": true,
+    }
 }
 
 
@@ -172,34 +214,126 @@ function isMorePositive({
 
 
 // main process
-function process(){
-    let arr = [42, 17, 95, 68, 23, 81, 39, 12, 57, 5]
-    let n = arr.length
-    let choice = 1
-    if (choice < 1 || choice > 10){
-
-        return
-    }
+function process(choice){
+    console.log(`process called - choice = ${choice}`);
+    
     switch (choice){
         case 1:
+            let sum = sumPositive({arr: arr})
+            document.getElementById("resultSumPositive").innerText = sum
             break
         case 2:
+            let count = countPositive({arr: arr})
+            document.getElementById("resultCountPositive").innerText = count
             break
         case 3:
+            let minValue = findMin({arr: arr})
+            document.getElementById("resultMinValue").innerText = minValue
             break
         case 4:
+            let minPositiveValue = findMinPositive({arr: arr})
+            document.getElementById("resultMinPositiveValue").innerText = minPositiveValue
             break
         case 5:
+            let lastPositiveValue = getLastEven({arr: arr})
+            let displayValue = lastPositiveValue
+            if (lastPositiveValue === -1){
+                displayValue = "Trong mảng không có số chẵn"
+            }
+            document.getElementById("resulLastEvenValue").innerText = displayValue
             break
         case 6:
+            let result = handleSwitchElementById({arr: arr})
+            let textStyle = "text-danger"
+            if (result['status']){
+                textStyle = "text-primary"
+            }
+            document.getElementById("resultSwitchElements").innerHTML = `<p class=${textStyle}>${result['result']}</p>`
             break
         case 7:
+            let ascendingArray = quickSort({arr: arr})
+            document.getElementById("resultAscendingArray").innerText = ascendingArray.join(", ")
             break
         case 8:
+            let primeResult = handleFirstPrime({arr: arr})
+            let primeTextStyle = "text-danger"
+            if (primeResult['status']){
+                primeTextStyle = "text-primary"
+            }
+            document.getElementById("resultPrimeNumber").innerHTML = `<p class=${primeTextStyle}>${primeResult['result']}</p>`
             break
         case 9:
             break
         case 10:
             break
     }
+}
+
+// Get length of array
+function confirmLength(){
+    n = parseInt(document.getElementById("input-array-length").value)
+    if (n < 0){
+        document.getElementById("arr-length-note").innerHTML = `<p class="text-danger">Số lượng phần tử không được là số âm!</p>`
+        window.setTimeout(() => {
+            document.getElementById("arr-length-note").innerText = ""
+        }, 2000)
+        return
+    }
+    if (n == 0){
+        displayArrayComponent(false)
+        displayMenuComponent(false)
+        return
+    }
+    displayArrayComponent(true)
+    document.getElementById("display-array-length").innerHTML = `<p class="text-primary">Chiều dài mảng: n = ${n}</p>
+    `
+}
+
+function addToArray(){
+    if (arr.length === n){
+        document.getElementById("element-note").innerHTML = `<p class="text-danger">Không thể thêm phần tử mới!</p>`
+        window.setTimeout(() => {
+            document.getElementById("element-note").innerText = ""
+        }, 2000)
+        return
+    }
+
+    let element = parseInt(document.getElementById("input-element").value)
+    if (Number.isInteger(element)){
+        arr.push(element)
+    }
+    document.getElementById("display-array").innerHTML = `<p class="text-primary">Mảng đã nhập: ${arr.join(", ")}</p>`
+
+    displayMenuComponent(true)
+}
+
+function resetArray(){
+    n = 0
+    arr = []
+    document.getElementById("input-array-length").value = ""
+    document.getElementById("display-array-length").innerText = ""
+    document.getElementById("input-element").value = ""
+    document.getElementById("display-array").innerText = ""
+    
+    displayArrayComponent(false)
+    displayMenuComponent(false)
+}
+
+// Show/hide components
+
+function handleDisplay(elementId, shouldDisplay){
+    let displayStatus = document.getElementById(elementId).style.display
+    if ((displayStatus === "block" || displayStatus === "") && !shouldDisplay){
+        document.getElementById(elementId).style.display = "none"
+    }else if (displayStatus === "none" && shouldDisplay){
+        document.getElementById(elementId).style.display = "block"
+    }
+}
+
+function displayArrayComponent(shouldDisplay){
+    handleDisplay("array-element-section", shouldDisplay)
+}
+
+function displayMenuComponent(shouldDisplay){
+    handleDisplay("menu-section", shouldDisplay)
 }
